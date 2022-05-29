@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Service
@@ -29,7 +30,26 @@ public class OfferService{
         offerRepository.delete(offer);
     }
 
-    public List<Offer> findOffersByTypeOfPayment(String type) {
+    public List<Offer> findOffersByTypeOfPayment(List<String> type) {
         return offerRepository.findAllByTypeOfPayment(type);
+    }
+
+    public List<Offer> getAllOffersById(String[] ids) {
+        List<Offer> offers = new ArrayList<>();
+        for (String id : ids) {
+            Optional<Offer> optionalOffer =   offerRepository.findById(Long.parseLong(id));
+            optionalOffer.ifPresent(offers::add);
+        }
+        return offers;
+    }
+
+
+    public List<Offer> getAllOffersById(List<Long> ids) {
+        List<Offer> offers = new ArrayList<>();
+        for (Long id : ids) {
+            Optional<Offer> optionalOffer =   offerRepository.findById(id);
+            optionalOffer.ifPresent(offers::add);
+        }
+        return offers;
     }
 }

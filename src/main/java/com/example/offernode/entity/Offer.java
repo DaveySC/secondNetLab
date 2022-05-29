@@ -1,9 +1,12 @@
 package com.example.offernode.entity;
 
 
+import lombok.Getter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
 public class Offer extends BaseEntity {
 
     @Column(name = "name")
@@ -19,5 +22,8 @@ public class Offer extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "type_of_payment_id")
     private TypeOfPayment typeOfPayment;
+
+
+
 
 }

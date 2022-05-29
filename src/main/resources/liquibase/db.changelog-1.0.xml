@@ -58,7 +58,12 @@
 
     <changeSet id="1.0.2" author="aleksey">
         <addForeignKeyConstraint baseTableName="offer" baseColumnNames="type_of_payment_id"
-                                 constraintName="type_of_payment" referencedTableName="type_of_payment"
+                                 constraintName="type_of_payment"
+                                 referencedTableName="type_of_payment"
                                  referencedColumnNames="id"/>
     </changeSet>
+
+
+
+
 </databaseChangeLog>

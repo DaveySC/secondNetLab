@@ -12,9 +12,9 @@ import java.util.List;
 public interface OfferRepository extends JpaRepository<Offer, Long> {
     Offer findByName(String name);
 
-    @Query(value = "select offer.id, offer.created, offer.updated, offer.name, offer.description, offer.price, offer.type_of_payment_id from offer inner join type_of_payment on type_of_payment.id = offer.id where type_of_payment.type = :type",
+    @Query(value = "select offer.id, offer.created, offer.updated, offer.name, offer.description, offer.price, offer.type_of_payment_id from offer inner join type_of_payment on type_of_payment.id = offer.type_of_payment_id where type_of_payment.type in (:type)",
             nativeQuery = true)
-    List<Offer> findAllByTypeOfPayment(@Param("type") String type);
+    List<Offer> findAllByTypeOfPayment(@Param("type") List<String> type);
 
 
 

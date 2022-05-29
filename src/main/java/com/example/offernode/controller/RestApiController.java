@@ -8,16 +8,12 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
-public class ResApiController {
+public class RestApiController {
     private OfferService offerService;
 
     @Autowired
@@ -42,13 +38,28 @@ public class ResApiController {
 
     @PostMapping("/payment")
     public String returnOffers(HttpEntity<TypeOfPayment[]> httpEntity) {
-        List<TypeOfPayment> test = Arrays.asList(Objects.requireNonNull(httpEntity.getBody()));
-        for (TypeOfPayment type : test) {
-            System.out.println(type);
-        }
-
-        List<Offer> offers = offerService.findOffersByTypeOfPayment("cash");
+        List<TypeOfPayment> test = Arrays.asList(httpEntity.getBody());
+        List<Offer> offers = offerService.findOffersByTypeOfPayment(test.stream().map(TypeOfPayment::getType).collect(Collectors.toList()));
         return gson.toJson(offers);
     }
 
+
+    @PostMapping("/get/offers")
+    public String getOffers(HttpEntity<String[]> httpEntity) {
+        List<Offer> offers = offerService.getAllOffersById(httpEntity.getBody());
+        return gson.toJson(offers);
+    }
+
+
+    @PostMapping("/get/price")
+    public Long getPrice(HttpEntity<List<Long>> httpEntity) {
+        List<Long> ids = httpEntity.getBody();
+        Long sum = 0L;
+        for(Offer offer : offerService.getAllOffersById(ids)) {
+           sum += offer.getPrice();
+        }
+        return sum;
+
+
+    }
 }

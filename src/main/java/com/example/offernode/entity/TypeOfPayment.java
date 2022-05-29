@@ -12,9 +12,17 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
+
 public class TypeOfPayment extends BaseEntity{
     @Column(name = "type")
     private String type;
 
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
