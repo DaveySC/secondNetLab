@@ -1,6 +1,9 @@
 package com.example.customertsnode.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -9,6 +12,8 @@ import java.util.Date;
 
 @MappedSuperclass
 @Data
+@DynamicUpdate
+@DynamicInsert
 public class BaseEntity {
 
     @Id
@@ -16,14 +21,16 @@ public class BaseEntity {
     private long id;
 
     @CreatedDate
-    @Column(name = "created")
-    private Date created;
+    @Column(name = "created", nullable = false, columnDefinition = "timestamp default now()")
+    protected Date created = new Date();
 
     @LastModifiedDate
-    @Column(name = "updated")
-    private Date updated;
+    @Column(name = "updated", nullable = false, columnDefinition = "timestamp default now()")
+    protected Date updated = new Date();
 
-    @Column(name = "status")
+    @JsonIgnore
+    @Column(name = "status", nullable = false, columnDefinition = "varchar(25) default 'ACTIVE'")
     @Enumerated(EnumType.STRING)
-    private Status status;
+    protected Status status = Status.ACTIVE;
+
 }

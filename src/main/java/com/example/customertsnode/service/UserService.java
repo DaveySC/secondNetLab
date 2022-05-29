@@ -58,4 +58,13 @@ public class UserService implements UserDetailsService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
 
     }
+
+    public void saveOrUpdateUser(User user) {
+        userRepository.save(user);
+    }
+
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
+
 }
