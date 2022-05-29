@@ -1,0 +1,32 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="1.0.1" author="aleksey">
+        <createTable tableName="offer">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="cart_id" type="BIGINT">
+            </column>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1.0.2" author="aleksey">
+        <createTable tableName="cart">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+
+
+    <changeSet id="1.0.3" author="aleksey">
+        <addForeignKeyConstraint baseTableName="offer" baseColumnNames="cart_id"
+                                 constraintName="fk_offer_cart"
+                                 referencedTableName="cart" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>
